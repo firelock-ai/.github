@@ -1,43 +1,71 @@
 # Firelock
 
-**AI-first engineering. We build high-performance infrastructure and ship open-source tools for AI-native teams.**
+> **Software that remembers itself.**
+>
+> Exact context, not more.
 
----
+Firelock builds **Kin**, the semantic system of record for AI-written software.
 
-### Kin — Semantic Version Control
+AI agents can write a change faster than a team can establish what it touches,
+whether it reverses an earlier fix, and how far its blast radius reaches. Git
+records files and line history. Kin records the software itself as a graph of
+entities, relations, changes, and provenance, then gives humans and agents one
+semantic authority to query and review.
 
-> Git stores text history. **Kin understands code.**
+Kin is a public alpha. It is pre-1.0, so expect rough edges and breaking changes.
 
-[**Kin**](https://github.com/firelock-ai/kin) is a local-first semantic version control system built in Rust. It replaces file-based version control with a graph of semantic entities and relationships, then serves precise context to AI agents and developers under token budgets.
+## The stack
 
+Kin is one system with a few clear public surfaces:
+
+| Surface | What it does |
+| --- | --- |
+| [kin](https://github.com/firelock-ai/kin) | Semantic system of record: CLI, daemon, graph lifecycle, MCP, review, provenance, and Git coexistence. |
+| [kin-vfs](https://github.com/firelock-ai/kin-vfs) | Projects graph-owned files through normal filesystem calls so existing tools can keep using files. |
+| [kin-editor](https://github.com/firelock-ai/kin-editor) | VS Code access to the entity explorer, semantic search, trace, review, and rename surfaces. |
+| [KinLab](https://kinlab.ai) | Hosted collaboration and control plane. |
+
+## Install
+
+On macOS or Linux:
+
+```sh
+curl -fsSL https://get.kinlab.dev/install | sh
+kin setup --intent agent
 ```
-$ kin trace AuthService --compact
-→ AuthService (class) @ src/auth/service.ts
-  ├─ depends: TokenValidator, UserRepository, SessionStore
-  ├─ callers: LoginHandler, OAuthCallback, APIGateway
-  └─ contracts: POST /auth/login, POST /auth/refresh
 
-$ kin context AuthService --budget 4k
-✓ Context pack: 3,847 tokens (12 entities, 4 signatures)
+Homebrew and npm resolve the same public release channel:
+
+```sh
+brew install firelock-ai/kin/kin
+# or
+npm install -g @kinlab/kin@latest
 ```
 
-**Why Kin?**
-- Semantic graph replaces file diffs — code stored as entities and relationships
-- Token-budgeted context packs for AI assistants via Model Context Protocol (MCP)
-- Identity tracking survives renames, moves, and refactoring
-- Semantic review and impact analysis — not line-level diffs
-- Git interop — import/export, but Git is not required
+## Supporting libraries
 
-**Status:** Public Alpha | **License:** Apache 2.0 | **Language:** Rust
+These Apache-2.0 crates are the implementation layers behind Kin, not separate
+products a new user needs to assemble:
 
-[View Repository](https://github.com/firelock-ai/kin) | [firelock.ai](https://firelock.ai)
+- [kin-db](https://github.com/firelock-ai/kin-db) - embeddable code graph database: entities, relations, vector and text search, snapshots
+- [kin-model](https://github.com/firelock-ai/kin-model) - canonical types and domain models for the semantic graph
+- [kin-blobs](https://github.com/firelock-ai/kin-blobs) - content-addressable blob storage
+- [kin-search](https://github.com/firelock-ai/kin-search) - lexical search primitives and staged retrieval
+- [kin-vector](https://github.com/firelock-ai/kin-vector) - pure-Rust HNSW vector search
+- [kin-infer](https://github.com/firelock-ai/kin-infer) - transformer inference and embeddings
+- [kin-lsp](https://github.com/firelock-ai/kin-lsp) - language-server enrichment for the graph
 
----
+## Open core
 
-### About Firelock
+Kin is open core.
 
-Firelock is a professional consulting firm specializing in AI, software engineering, IT infrastructure, and marketing. We deliver high-performance solutions for the modern enterprise — from AI agent architectures to mission-critical infrastructure.
+- The core system and its libraries are open source under Apache-2.0: kin, kin-vfs, kin-editor, and the supporting crates above.
+- The hosted collaboration and control plane (KinLab) and the internal benchmark runner are proprietary.
+- The public benchmark specification and a standalone bundle verifier live in [kin-bench-spec](https://github.com/firelock-ai/kin-bench-spec).
 
-When existing tools bottleneck our velocity, we build our own and open-source them.
+## About Firelock
 
-[firelock.ai](https://firelock.ai) | [hello@firelock.ai](mailto:hello@firelock.ai)
+Firelock is the company behind Kin. When existing tools bottleneck AI-native
+software work, we build the missing substrate and open-source the core.
+
+[kinlab.ai](https://kinlab.ai) | [hello@firelock.ai](mailto:hello@firelock.ai)
