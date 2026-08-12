@@ -31,6 +31,12 @@ On macOS or Linux:
 
 ```sh
 curl -fsSL https://get.kinlab.dev/install | sh
+```
+
+The installer edits your shell profile, so open a new terminal (or run
+`exec $SHELL -l`) before the next command. Then wire up your agent:
+
+```sh
 kin setup --intent agent
 ```
 
