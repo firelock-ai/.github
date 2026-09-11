@@ -1,12 +1,9 @@
 # Firelock
 
-> **Software that remembers itself.**
->
-> Exact context, not more.
+Firelock builds **Kin**, a graph-native code repository for people and AI agents.
 
-Firelock builds **Kin**, the semantic system of record for AI-written software.
-
-AI agents can write a change faster than a team can establish what it touches,
+Kin helps you and your AI agents understand what a code change might affect
+before you make it. AI agents can write a change faster than a team can establish what it touches,
 whether it reverses an earlier fix, and how far its blast radius reaches. Git
 records files and line history. Kin records the software itself as a graph of
 entities, relations, changes, and provenance, then gives humans and agents one
